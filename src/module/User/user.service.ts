@@ -1,3 +1,4 @@
+import { UserRepository } from "./user.repository"
 import { CreateUserInput, User } from "./user.types"
 
 interface IUserService {
@@ -8,16 +9,14 @@ interface IUserService {
 
 export class UserService implements IUserService{
 
+    private userRepository: UserRepository
+
+    constructor(userRepository: UserRepository){
+        this.userRepository = userRepository
+    }
+
     async createUser(userInput: CreateUserInput): Promise<User>{
-
-        const user: User = {
-            name: userInput.name,
-             age: userInput.age, 
-             email: userInput.email, 
-             password: userInput.password, 
-            id: "suadhiusahdiuas",
-        } 
-
+        const user = await this.userRepository.createUser(userInput)
         return user
     }
 

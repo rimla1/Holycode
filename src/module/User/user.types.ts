@@ -8,3 +8,4 @@ export type CreateUserInput = {
 export type User = CreateUserInput & {
     id: string,
 }
+
