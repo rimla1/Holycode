@@ -4,6 +4,7 @@ config()
 import mongoose from 'mongoose'
 import express from "express"
 import { userRouter } from "./module/User/user.routes"
+import { authRouter } from './module/Authentication/auth.routes'
 
 const PORT = 3000
 const MONGODB_URI = `mongodb+srv://${process.env.MONGODB_USERNAME}:${process.env.MONGODB_PASSWORD}@cluster0.ekxmb.mongodb.net/${process.env.MONGODB_DATABASE_NAME}?retryWrites=true&w=majority`;
@@ -12,7 +13,11 @@ const app = express()
 
 app.use(express.json())
 
+
+
 app.use("/api/v1/users", userRouter)
+app.use("/api/v1/logins", authRouter)
+
 
 // await mongoose.connect(MONGODB_URI)
 //    app.listen(PORT, () => {

@@ -9,3 +9,8 @@ export type User = CreateUserInput & {
     id: string,
 }
 
+export type EditUserInput = {
+    name?: string,
+    age?: number,
+    password?: string
+}
