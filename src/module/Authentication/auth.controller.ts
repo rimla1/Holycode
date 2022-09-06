@@ -1,16 +1,18 @@
 import { Request, Response, NextFunction } from "express";
-import { UserService } from "../User/user.service";
+import { ValidationError } from "../../shared/errors";
+import { AuthService } from "./auth.service";
 import { LoginRequest } from "./auth.types";
+import { loginInputValidation } from "./auth.validation";
 
 
 
 
 export class AuthController {
     
-    private userService: UserService
+    private authService: AuthService
 
-    constructor(userService: UserService){
-        this.userService = userService
+    constructor(authService: AuthService){
+        this.authService = authService
     }
 
     async login(req: Request, res: Response, next: NextFunction): Promise<any>{
@@ -20,9 +22,14 @@ export class AuthController {
                 email,
                 password,
             }
-        return res.json({message: `Hello wolrd, email is ${email}, and password is: ${password}`})
+        const loginInput = loginInputValidation.validate(loginRequest, {abortEarly: false})
+        if(loginInput.error){
+            throw new ValidationError(loginInput.error.details)
+        }
+        const loginData = await this.authService.login(loginRequest)
+        return res.json(loginData)
         } catch (error) {
-            throw new Error("later error handling")
+            return next(error)
         }
         
     }

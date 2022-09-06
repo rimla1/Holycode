@@ -1,5 +1,6 @@
 import { UserRepository } from "./user.repository"
 import { CreateUserInput, EditUserInput, User } from "./user.types"
+import bcrypt from "bcrypt"
 
 interface IUserService {
     createUser(userInput: CreateUserInput): Promise<User>
@@ -8,6 +9,7 @@ interface IUserService {
     updateUser(userId: string, editUserInput: EditUserInput): Promise<User>
     deleteUser(userId: string): Promise<User>
     // searchUsersByNameAndAge(userName: string, userAge: number): Promise<User[]>
+    getUserByEmail(email: string): Promise<User>
 }
 
 export class UserService implements IUserService{
@@ -20,7 +22,8 @@ export class UserService implements IUserService{
 
     async createUser(userInput: CreateUserInput): Promise<User>{
         try {
-            const user = await this.userRepository.createUser(userInput)
+            const hashedPassword = await bcrypt.hash(userInput.password, 10)
+            const user = await this.userRepository.createUser({...userInput, password: hashedPassword})
             return user
         } catch (error) {
             throw error
@@ -73,5 +76,12 @@ export class UserService implements IUserService{
     //     }
     // }
 
-
+    async getUserByEmail(email: string): Promise<User> {
+        try {
+            const user = await this.userRepository.getUserByEmail(email)
+            return user
+        } catch (error) {
+            throw error
+        }
+    }
 }

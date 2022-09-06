@@ -1,3 +1,4 @@
+import { DoesNotExistsError } from "../../shared/errors";
 import { IUser, userModel } from "./user.model";
 import { CreateUserInput, EditUserInput, User } from "./user.types";
 
@@ -8,6 +9,8 @@ interface IUserRepository {
     listUsers(): Promise<User[]>
     updateUser(userId: string, editUserInput: EditUserInput): Promise<User>
     deleteUser(userId: string): Promise<User>
+    // search users
+    getUserByEmail(email: string): Promise<User>
 }
 
 export class UserRepository implements IUserRepository {
@@ -76,6 +79,22 @@ export class UserRepository implements IUserRepository {
             }
             const appDeletedUser = this.convertDBuserToAppUser(deletedUserFromDB)
             return appDeletedUser
+        } catch (error) {
+            throw error
+        }
+    }
+
+    // search users
+
+
+    async getUserByEmail(email: string): Promise<User>{
+        try {
+            const userFromDB = await userModel.findOne({email: email})
+            if(!userFromDB){
+                throw new DoesNotExistsError(`User with this email: ${email} does not exist`)
+            }
+            const appUser = this.convertDBuserToAppUser(userFromDB)
+            return appUser
         } catch (error) {
             throw error
         }
