@@ -8,7 +8,9 @@ interface IUserService {
     listUsers(): Promise<User[]>
     updateUser(userId: string, editUserInput: EditUserInput): Promise<User>
     deleteUser(userId: string): Promise<User>
-    // searchUsersByNameAndAge(userName: string, userAge: number): Promise<User[]>
+    searchUsersByNameAndAge(name: string, age: number): Promise<User[]>
+    searchUsersByName(name: string): Promise<User[]>
+    searchUsersByAge(age: number): Promise<User[]>
     getUserByEmail(email: string): Promise<User>
 }
 
@@ -67,14 +69,33 @@ export class UserService implements IUserService{
         }
     }
 
-    // async searchUsersByNameAndAge(userName: string, userAge: number): Promise<User[]>{
-    //     try {
-    //         const users = await this.userRepository.searchUsersByNameAndAge(userName, userAge)
-    //         return users
-    //     } catch (error) {
-            
-    //     }
-    // }
+    async searchUsersByNameAndAge(name: string, age: number): Promise<User[]> {
+        try {
+            const users = await this.userRepository.searchUsersByNameAndAge(name, age)
+            return users 
+        } catch (error) {
+            throw error
+        }
+    }
+
+    async searchUsersByName(name: string): Promise<User[]>{
+        try {
+            const users = await this.userRepository.searchUsersByName(name)
+            return users
+        } catch (error) {
+            throw error
+        }
+    }
+
+    async searchUsersByAge(age: number): Promise<User[]>{
+        try {
+            console.log(age)
+            const users = await this.userRepository.searchUsersByAge(age)
+            return users
+        } catch (error) {
+            throw error
+        }
+    }
 
     async getUserByEmail(email: string): Promise<User> {
         try {

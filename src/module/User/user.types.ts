@@ -2,7 +2,8 @@ export type CreateUserInput = {
     name: string,
     age: number,
     email: string,
-    password: string
+    password: string,
+    types: string[]
 }
 
 export type User = CreateUserInput & {
@@ -14,3 +15,4 @@ export type EditUserInput = {
     age?: number,
     password?: string
 }
+

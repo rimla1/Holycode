@@ -5,7 +5,7 @@ export interface IUser {
     email: string;
     password: string;
     age: number;
-    gender: string;
+    types: string[];
     _id: mongoose.ObjectId
   }
 
@@ -26,6 +26,9 @@ const userSchema = new Schema({
         type: String,
         required: true
     },
+    types: [{
+        type: String
+    }]
 })
 
 export const userModel = model<IUser>("user", userSchema)

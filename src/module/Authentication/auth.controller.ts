@@ -15,13 +15,14 @@ export class AuthController {
         this.authService = authService
     }
 
-    async login(req: Request, res: Response, next: NextFunction): Promise<any>{
+    async login(req: Request, res: Response, next: NextFunction){
+        const {email, password} = req.body
+
+        const loginRequest: LoginRequest = {
+            email,
+            password
+        }
         try {
-            const {email, password} = req.body
-            const loginRequest: LoginRequest = {
-                email,
-                password,
-            }
         const loginInput = loginInputValidation.validate(loginRequest, {abortEarly: false})
         if(loginInput.error){
             throw new ValidationError(loginInput.error.details)
