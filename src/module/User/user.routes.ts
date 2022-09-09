@@ -35,7 +35,7 @@ export const userRouter = Router()
 userRouter.post("/", isAuth, hasType(["admin"]), userController.createUser.bind(userController))
 
 
-// Get user by Name and/or age
+
 /**
  * @openapi
  * '/api/v1/users/search/':
@@ -59,7 +59,7 @@ userRouter.post("/", isAuth, hasType(["admin"]), userController.createUser.bind(
  */
 userRouter.get("/search", userController.searchUsersByNameAndOrAge.bind(userController))
 
-// List a User
+
 /**
  * @openapi
  * '/api/v1/users/{userId}':
@@ -77,7 +77,7 @@ userRouter.get("/search", userController.searchUsersByNameAndOrAge.bind(userCont
  */
 userRouter.get("/:userId", isAuth, hasType([]), userController.listUser.bind(userController))
 
-// List a Users
+
 /**
  * @openapi
  * /api/v1/users:
@@ -91,7 +91,7 @@ userRouter.get("/:userId", isAuth, hasType([]), userController.listUser.bind(use
  */
 userRouter.get("/", isAuth, hasType([]), userController.listUsers.bind(userController))
 
-// Update a User
+
 /** 
 * @openapi
 * '/api/v1/users/{userId}':
@@ -110,7 +110,7 @@ userRouter.get("/", isAuth, hasType([]), userController.listUsers.bind(userContr
 userRouter.put("/:userId", isAuth, userController.updateUser.bind(userController))
 
 
-// Delete a User
+
 /**
  * @openapi
  * '/api/v1/users/{userId}':
@@ -129,6 +129,5 @@ userRouter.put("/:userId", isAuth, userController.updateUser.bind(userController
 userRouter.delete("/:userId", isAuth, userController.deleteUser.bind(userController))
 
 
-// Search Users 
-// userRouter.get("/:userName/:userAge", searchUsers)
+
 
