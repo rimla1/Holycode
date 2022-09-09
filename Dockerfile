@@ -1,15 +1,20 @@
-FROM node:12
 
-WORKDIR /src/app
+# Pull the Node image from Docker Hub
+FROM node:14-slim
 
-COPY package/*.json ./
+# Setting Working Directory
+WORKDIR /usr/app
 
+# Copying only package.json
+COPY package*.json ./
+
+# Install Dependencies
 RUN npm install
 
+# Copy rest of the code to container
 COPY . .
-
-ENV PORT = 3000
 
 EXPOSE 3000
 
-CMD ["npm", "start"]
+# Run the API on Nodemon
+CMD ["npm", "run", "start"]
