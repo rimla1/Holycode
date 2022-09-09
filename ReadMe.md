@@ -17,6 +17,12 @@ Start server
 npm start
 ```
 
+or
+
+```sh
+docker-compose up
+```
+
 ## Implementations in project
 
 -NodeJS
